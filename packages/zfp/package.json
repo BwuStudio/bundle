@@ -1,0 +1,25 @@
+{
+  "name": "zfp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "mocha -r ts-node/register ./test/*.ts",
+    "build": "rollup -c"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/power-assert": "^1.5.0",
+    "@types/sinon": "^7.0.13",
+    "espower-typescript": "^9.0.2",
+    "mocha": "^6.2.0",
+    "power-assert": "^1.6.1",
+    "rollup": "^1.21.2",
+    "rollup-plugin-typescript2": "^0.24.1",
+    "sinon": "^7.4.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.6.3"
+  }
+}
