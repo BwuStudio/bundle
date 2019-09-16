@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "lib":["esnext"],
-        "module": "commonJs",
+        "module": "ESNEXT",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,

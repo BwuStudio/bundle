@@ -1,7 +1,2 @@
 .DS_Store
-.idea
 node_modules
-typings
-*.js
-*.js.map
-*.d.ts
