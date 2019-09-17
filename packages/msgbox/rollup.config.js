@@ -1,5 +1,8 @@
 
 const typescript = require('rollup-plugin-typescript2')
+const config = require('./tsconfig.json')
+
+config.compilerOptions.module= "ESNext"
 
 export default {
     input: './src/index.ts',
