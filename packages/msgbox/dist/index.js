@@ -32,6 +32,13 @@ var MailBox = (function () {
     MailBox.prototype.send = function (name) {
         return this.target.emit(name);
     };
+    MailBox.prototype.emit = function (name) {
+        return this.home.emit(name);
+    };
+    MailBox.prototype.regist = function (name, fn) {
+        this.target.define(name, fn);
+        return this;
+    };
     MailBox.create = function (home, target) {
         var res = new MailBox();
         res.target = target;

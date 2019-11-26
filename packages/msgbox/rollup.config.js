@@ -13,7 +13,7 @@ export default {
     ],
     output: {
       name: 'cjs',
-      file: './dist/bundle.js',
+      file: './dist/index.js',
       format: 'cjs',
     }
   };

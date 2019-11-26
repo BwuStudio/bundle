@@ -1,4 +1,4 @@
-declare type M<A> = {
+export declare type M<A> = {
     [P in keyof A]: A[P] extends (..._: infer M) => infer Q ? A[P] : never;
 };
 export default class MsgBox<T> {
@@ -9,4 +9,3 @@ export default class MsgBox<T> {
     constructor(m: T);
     static create(): MsgBox<{}>;
 }
-export {};

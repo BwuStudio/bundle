@@ -1,6 +1,6 @@
-import Msgbox from './Msgbox'
+import Msgbox ,{M as FuncType}from './Msgbox'
 import Mailbox from './Mailbox'
 
 export {
-    Msgbox,Mailbox
+    Msgbox,Mailbox,FuncType
 }

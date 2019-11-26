@@ -1,5 +1,5 @@
 
-type M<A> = {
+export type M<A> = {
     [P in keyof A]: A[P] extends (..._: infer M) => infer Q ? A[P] : never
 }
 
