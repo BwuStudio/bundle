@@ -5,7 +5,7 @@
         "lib": [
             "esnext","dom"
         ],
-        "sourceMap": true
+        "sourceMap": true,
     },
     "include": [
         "src/**/*"

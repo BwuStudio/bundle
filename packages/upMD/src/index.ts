@@ -1,4 +1,4 @@
-import {Modal} from './vDom/index'
+import Modal from './view/Modal.shelf'
 
 
-new Modal().send('show')('百度','http://www.baidu.com')
+Modal.url('百度','http://www.baidu.com')
