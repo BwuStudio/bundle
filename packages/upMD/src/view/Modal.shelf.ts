@@ -1,6 +1,6 @@
 import Shelf from "../utils/Shelf"
 import Injcss from '../utils/injcss'
-import { html, JsTag } from '../utils/jsDom'
+import { html, JsTag, JsElement, AsyncJsDomable,toPromse } from '../utils/jsdom'
 
 const tags = JsTag.create({
     title: '',
@@ -14,22 +14,47 @@ const tags = JsTag.create({
 export default class Modal extends Shelf<{
     hide: () => void
 }, {
-    show: (title: string, dom: HTMLElement) => void
+    show: (title: string, dom: HTMLElement| AsyncJsDomable) => Modal
     hide: () => void
 }> {
 
-    static dom(title: string, dom: HTMLElement) {
-        return new Modal().send('show')(title, dom)
+    static dom(title: string, dom: HTMLElement| AsyncJsDomable): Promise<Modal> {
+        return Modal.create().then(v => v.send('show')(title, dom))
     }
 
-    static url(title: string, url: string) {
+    static jsDom(title:string,jsd:Promise<JsElement>|JsElement):Promise<Modal>{
+        return Promise.all<JsElement,Modal>([toPromse(jsd),Modal.create()]).then(([dom,modal])=>modal.send('show')(title,dom.realElement))
+    }
+
+    // static jsDom(title: string, dom: Js):Promise<Modal> {
+    //     return  Modal.create().then(v=>v.send('show')(title, dom))
+    //     new Modal().send('show')(title, dom.realElement)
+    // }
+
+    static url(title: string, url: string): Promise<Modal> {
         const dom = document.createElement('iframe')
         dom.src = url
         dom.style.height = '100%'
         dom.style.width = '100%'
         dom.style.border = 'none'
-        return new Modal().send('show')(title, dom)
+        return Modal.dom(title, dom)
     }
+
+
+    static create(): Promise<Modal> {
+        return html`
+        <div>
+            <div ${tags.panel}>
+                <div ${tags.head}>
+                    <span ${tags.title}></span>
+                    <div  ${tags.close}></div>
+                </div>
+                <div ${tags.content}></div>
+            </div>
+        </div>`.then(v => new Modal(v))
+    }
+
+
 
     private static css = Injcss.create().push({
         '': {
@@ -82,26 +107,16 @@ export default class Modal extends Shelf<{
         }
     })
 
-    constructor() {
+    constructor(dom: JsElement) {
 
         super({
             hide: () => { }
         }, {
-            show: () => { },
+            show: () => this,
             hide: () => { }
         })
 
-        const dom = html`
-            <div>
-                <div ${tags.panel}>
-                    <div ${tags.head}>
-                        <span ${tags.title}></span>
-                        <div  ${tags.close}></div>
-                    </div>
-                    <div ${tags.content}></div>
-                </div>
-            </div>
-        `
+
 
         Modal.css.injectTo(dom.realElement)
 
@@ -119,8 +134,13 @@ export default class Modal extends Shelf<{
             })
 
             dom.find(tags.content).map((v: HTMLElement) => {
-                v.appendChild(targetDom)
+                if(targetDom instanceof HTMLElement){
+                    v.appendChild(targetDom)
+                }else{
+                    toPromse(targetDom).then(m=> m.apppendTo(v))
+                }
             })
+            return this
         })
 
         this.regist('hide', () => {

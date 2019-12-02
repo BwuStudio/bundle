@@ -1,5 +1,7 @@
 import { Msgbox, Mailbox, FuncType } from 'msgbox'
-
+import { JsDomable, JsSelector, JsElement } from './jsdom'
+import { Option, Some, None } from 'zfp'
+import uuid from './uuid'
 
 
 export default abstract class Shelf<Event, Method> {
@@ -33,4 +35,55 @@ export default abstract class Shelf<Event, Method> {
         return this
     }
 
+}
+
+abstract class DomShelf<Event, Method> extends Shelf<Event, Method>
+
+    implements JsDomable {
+
+    id: string
+
+    placeholder: Comment
+
+    protected ele: JsElement
+
+    constructor(event: FuncType<Event>, method: FuncType<Method>) {
+        super(event, method)
+        this.id = uuid()
+        this.placeholder = document.createComment(this.id)
+    }
+
+    dom() { 
+        return this.ele.dom() 
+    }
+
+    // 将真实节点插入父元素中
+    insert() { 
+        return this.ele.insert() 
+    }
+
+    // 在某个节点的位置上插入节点
+    replace(target: Element) { 
+        return this.ele.replace(target) 
+    }
+
+    apppendTo(parent: Element) { 
+        return this.ele.apppendTo(parent) 
+    }
+
+    find(s: string | JsSelector): Option<HTMLElement> {
+        return this.ele.find(s)
+    }
+
+    findAll(s: string | JsSelector): HTMLElement[] {
+        return this.ele.findAll(s)
+    }
+
+    toPromise():Promise<this>{
+        return new Promise(res=>res(this))
+    }
+}
+
+export {
+    DomShelf
 }

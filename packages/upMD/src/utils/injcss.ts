@@ -7,7 +7,7 @@ class Injcss {
     static create(){return new this()}
 
     static fieldParse(input: string) {
-        return input.split('').map(v => v.toLocaleLowerCase() === v ? v : ('-' + v.toLocaleLowerCase())).join('')
+        return input.split('').map(v => v.toLocaleLowerCase() === v ? v : ('-' + v.toLocaleLowerCase())).join('').replace('css-','')
     }
 
     cid: string = ''
